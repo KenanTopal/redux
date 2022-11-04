@@ -1,23 +1,32 @@
-import logo from './logo.svg';
+import { useState } from "react";
+import { Button, Input } from "reactstrap"
+import Todo from "./todo"
+import { ADDTODO } from "./actions";
+
+import store from "./store"
 import './App.css';
 
 function App() {
+  const [inputValue, setInput] = useState([])
+
+  const handleChange = (e) => {
+    setInput(e.target.value)
+  }
+  const handleClick = () => {
+    setInput("")
+    store.dispatch({ type: ADDTODO, title: inputValue })
+
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div style={{ display: "flex" }}>
+        <Input onChange={handleChange} value={inputValue}
+        />
+        <Button color='primary' onClick={handleClick}>Add new todo</Button>
+      </div>
+      <Todo />
+
     </div>
   );
 }
